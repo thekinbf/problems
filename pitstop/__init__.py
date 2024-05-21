@@ -9,5 +9,6 @@ def exists():
 
 @check50.check(exists)
 def runs_interactively():
-    """Opens and closes R interactive console"""
-    check50.run("R").stdin("q()").stdin("n").exit(0)
+    """Tests retrieving stdout"""
+    out = check50.run("R").stdin("source('pitstop.R')").stdin("pitstop.csv").stdin("q()").stdin("n").stdout()
+    check50.log(str(out))
