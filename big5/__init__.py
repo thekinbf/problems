@@ -88,19 +88,27 @@ def gender_column_test():
 @check50.check(rows)
 def results():
     """big5.R computes correct personality test results"""
-    expected_results = {"extroversion": 0.93, "neuroticism": 0.27, "agreeableness": 1, "conscientiousness": 0.87, "openness": 0.8}
+    expected_results = {
+        "extroversion": 0.93,
+        "neuroticism": 0.27,
+        "agreeableness": 1,
+        "conscientiousness": 0.87,
+        "openness": 0.8,
+    }
     with open("analysis.csv", "r") as f:
         reader = csv.DictReader(f)
         for row in reader:
             row = {k.lower(): v for k, v in row.items()}
-            
+
             for trait in expected_results.keys():
                 try:
                     row[trait] = float(row[trait])
                 except ValueError:
                     raise check50.Failure(f"{row[trait]} is not a number")
-                
+
                 if row[trait] != expected_results[trait]:
-                    raise check50.Failure(f"Expected to find {expected_results[trait]} in first row's {trait} column. Found {row[trait]}.")
-            
+                    raise check50.Failure(
+                        f"Expected to find {expected_results[trait]} in first row's {trait} column. Found {row[trait]}."
+                    )
+
             break
