@@ -110,7 +110,7 @@ def replace_readline(contents: list[str]) -> list[str]:
         if "readline" in line:
             readline_count += 1
             line = re.sub(
-                r"readline\(.*\)",
+                r"readline\([^\)]*\)",
                 f"commandArgs(trailingOnly = TRUE)[{readline_count}]",
                 line,
             )
