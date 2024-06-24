@@ -13,7 +13,7 @@ def exists():
 def error():
     """big5.R runs without error"""
     out = check50.run("Rscript big5.R").stdout()
-    check50.log(str(out))
+    raise check50.Failure(str(out))
 
 
 @check50.check(error)
