@@ -1,0 +1,15 @@
+check50:
+  files: &check50_files
+    - !exclude "*"
+    - !include "*.R"
+    - !require "air.RData"
+    - !require "2.RData"
+    - !require "3.RData"
+    - !require "4.RData"
+    - !require "5.RData"
+    - !require "6.RData"
+    - !require "7.RData"
+
+submit50:
+  files: *check50_files
+  style: false
