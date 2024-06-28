@@ -1,3 +1,4 @@
 .*
 !.gitgnore
+!.cs50.yml
 __pycache__
