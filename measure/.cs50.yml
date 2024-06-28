@@ -1,0 +1,9 @@
+check50:
+  files: &check50_files
+    - !exclude "*"
+    - !include "*.R"
+    - !require "test-str_length.R"
+
+submit50:
+  files: *check50_files
+  style: false
