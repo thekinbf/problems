@@ -18,7 +18,10 @@ def error():
         out = check50.run("Rscript big5.R").stdout()
         if match := re.search(r"cannot open file '(?P<filename>[^']+)'", out):
             filename = match.group("filename")
-            raise check50.Failure(f"big5.R could not open \"{filename}\"", help="Be sure to provide a relative path, such as \"tests.tsv\"")
+            raise check50.Failure(
+                f'big5.R could not open "{filename}"',
+                help='Be sure to provide a relative path, such as "tests.tsv"',
+            )
         raise check50.Failure("big5.R encountered an error")
 
 
@@ -28,7 +31,7 @@ def format():
     check50.exists("analysis.csv")
     with open("analysis.csv", "r") as f:
         dialect = csv.Sniffer().sniff(f.read(1024))
-        if dialect.delimiter != ',':
+        if dialect.delimiter != ",":
             raise check50.Failure("analysis.csv does not use a comma as a separator")
 
 
