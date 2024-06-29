@@ -115,7 +115,17 @@ def bhutan():
 
 
 def check_country(country: str, expected_scores: dict[str]) -> None:
+    status = check50.run(f"Rscript happy.R '{country}'").exit()
     out = check50.run(f"Rscript happy.R '{country}'").stdout().lower()
+
+    if status != 0:
+        if match := re.search(r"cannot open file '(?P<filename>[^']+)'", out):
+            raise check50.Failure(
+                f'happy.R could not open "{match.group("filename")}"',
+                help='Be sure to provide a relative path, such as "2020.csv"',
+            )
+        raise check50.Failure(out)
+
     for year, score in expected_scores.items():
         if not (year in out and score in out):
             raise check50.Failure(
