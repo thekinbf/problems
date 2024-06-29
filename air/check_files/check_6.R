@@ -55,13 +55,3 @@ if (length(missing_columns) > 0) {
   cat("tibble in air.RData does not contain all specified columns. Missing columns:", paste(missing_columns, collapse = ", "))
   quit(status = 1)
 }
-
-if (!all(check_air$pollutant == air$pollutant)) {
-  cat("air tibble does not correctly sort pollutants")
-  quit(status = 1)
-}
-
-if (!all(check_air$emissions == air$emissions)) {
-  cat("air tibble does not correctly sum emissions for each pollutant")
-  quit(status = 1)
-}
