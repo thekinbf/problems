@@ -24,7 +24,7 @@ if (!load_successful("check_6.RData")) {
   quit(status = 1)
 }
 
-# Check if air exists in 5.RData
+# Check if air exists in 6.RData
 if (!exists("air")) {
   cat("`air` tibble does not exist in 6.RData")
   quit(status = 1)
