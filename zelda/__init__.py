@@ -16,28 +16,28 @@ def check_1():
 
 @check50.check(check_1)
 def check_2():
-    """2.RData contains tibble with correct data"""
+    """2.RData contains tibble summarizing number of Zelda releases in each year"""
     check50.include("check_files/check_2.RData")
     run_check("check_2.R")
 
 
 @check50.check(check_2)
 def check_3():
-    """3.RData contains tibble with correct data"""
+    """3.RData contains tibble with original releases of each Zelda title"""
     check50.include("check_files/check_3.RData")
     run_check("check_3.R")
 
 
 @check50.check(check_3)
 def check_4():
-    """4.RData contains tibble with correct data"""
+    """4.RData contains tibble with all original releases produced by Shigeru Miyamoto"""
     check50.include("check_files/check_4.RData")
     run_check("check_4.R")
 
 
 @check50.check(check_4)
 def check_5():
-    """5.RData contains tibble with correct data"""
+    """5.RData contains tibble with all original releases produced by more than 1 producer"""
     check50.include("check_files/check_5.RData")
     run_check("check_5.R")
 
