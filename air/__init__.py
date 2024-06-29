@@ -9,7 +9,7 @@ def exists():
 
 @check50.check(exists)
 def check_1():
-    """air.RData contains correctly cleaned data"""
+    """air.RData contains tidy air tibble"""
     run_check("check_1.R")
 
 
