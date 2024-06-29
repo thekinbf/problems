@@ -10,7 +10,6 @@ def exists():
 @check50.check(exists)
 def check_1():
     """air.RData contains correctly cleaned data"""
-    check50.include("check_files/check_air.RData")
     run_check("check_1.R")
 
 
