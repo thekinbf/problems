@@ -1,5 +1,6 @@
 import check50
 import csv
+import re
 
 
 @check50.check()
@@ -12,7 +13,13 @@ def exists():
 @check50.check(exists)
 def error():
     """big5.R runs without error"""
-    check50.run("Rscript big5.R").exit(0)
+    status = check50.run("Rscript big5.R").exit()
+    if status != 0:
+        out = check50.run("Rscript big5.R").stdout()
+        if match := re.search(r"cannot open file '(?P<filename>[^']+)'", out):
+            filename = match.group("filename")
+            raise check50.Failure(f"big5.R could not open \"{filename}\"", help="Be sure to provide a relative path, such as \"tests.tsv\"")
+        raise check50.Failure("big5.R encountered an error")
 
 
 @check50.check(error)
