@@ -25,60 +25,37 @@ def readline():
 @check50.check(readline)
 def green_tea():
     """teahouse.R correctly recommends green tea"""
-    status = check50.run("Rscript teahouse.R Light Yes").exit()
-    out = check50.run("Rscript teahouse.R Light Yes").stdout()
-    
-    if status != 0:
-        raise check50.Failure("teahouse.R encountered an error: {out}")
-
-    if "green tea" not in out.lower():
-        raise check50.Failure(
-            'Expected to find "green tea" in output when entering "Light" followed by "Yes"'
-        )
+    check_recommendation("Light", "Yes", "green tea")
 
 
 @check50.check(readline)
 def black_tea():
     """teahouse.R correctly recommends black tea"""
-    status = check50.run("Rscript teahouse.R Bold Yes").exit()
-    out = check50.run("Rscript teahouse.R Bold Yes").stdout()
-    
-    if status != 0:
-        raise check50.Failure("teahouse.R encountered an error: {out}")
-    
-    if "black tea" not in out.lower():
-        raise check50.Failure(
-            'Expected to find "black tea" in output when entering "Bold" followed by "Yes"'
-        )
+    check_recommendation("Bold", "Yes", "black tea")
 
 
 @check50.check(readline)
 def chamomile():
     """teahouse.R correctly recommends chamomile tea"""
-    status = check50.run("Rscript teahouse.R Light No").exit()
-    out = check50.run("Rscript teahouse.R Light No").stdout()
-
-    if status != 0:
-        raise check50.Failure("teahouse.R encountered an error: {out}")
-    
-    if "chamomile" not in out.lower():
-        raise check50.Failure(
-            'Expected to find "chamomile" in output when entering "Light" followed by "No"'
-        )
+    check_recommendation("Light", "No", "chamomile")
 
 
 @check50.check(readline)
 def rooibos():
     """teahouse.R correctly recommends rooibos tea"""
-    status = check50.run("Rscript teahouse.R Bold No").exit()
-    out = check50.run("Rscript teahouse.R Bold No").stdout()
+    check_recommendation("Bold", "No", "rooibos")
+
+
+def check_recommendation(flavor: str, caffeine: str, tea: str) -> None:
+    status = check50.run(f"Rscript teahouse.R {flavor} {caffeine}").exit()
+    out = check50.run(f"Rscript teahouse.R {flavor} {caffeine}").stdout()
 
     if status != 0:
-        raise check50.Failure("teahouse.R encountered an error: {out}")
+        raise check50.Failure(out)
 
-    if "rooibos" not in out.lower():
+    if tea.lower() not in out.lower():
         raise check50.Failure(
-            'Expected to find "rooibos" in output when entering "Bold" followed by "No"'
+            f'Expected to find "{tea}" in output when entering "{flavor}" followed by "{caffeine}"'
         )
 
 
