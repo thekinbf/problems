@@ -10,5 +10,10 @@ def exists():
 @check50.check(exists)
 def lyrics():
     """parked.R creates lyrics.png"""
-    check50.run("Rscript parked.R").exit(0)
+    status = check50.run("Rscript parked.R").exit()
+    out = check50.run("Rscript parked.R").stdout()
+    
+    if status != 0:
+        raise check50.Failure(out)
+    
     check50.exists("lyrics.png")
