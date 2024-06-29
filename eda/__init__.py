@@ -8,7 +8,12 @@ def exists():
 
 
 @check50.check(exists)
-def lyrics():
+def eda():
     """eda.R creates visualization.png"""
-    check50.run("Rscript eda.R").exit(0)
+    status = check50.run("Rscript eda.R").exit()
+    out = check50.run("Rscript eda.R").stdout()
+    
+    if status != 0:
+        raise check50.Failure(out)
+
     check50.exists("visualization.png")
