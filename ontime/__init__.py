@@ -49,7 +49,17 @@ def bus_86():
 
 
 def check_route(route: str, peak_percent: str, offpeak_percent: str) -> None:
+    status = check50.run(f"Rscript ontime.R {route}").exit()
     out = check50.run(f"Rscript ontime.R {route}").stdout()
+
+    if status != 0:
+        if match := re.search(r"cannot open file '(?P<filename>[^']+)'", out):
+            raise check50.Failure(
+                f'ontime.R could not open "{match.group("filename")}"',
+                help='Be sure to provide a relative path, such as "rail.csv" or "bus.csv"',
+            )
+        raise check50.Failure(f"ontime.R encountered an error: {out}")
+
     if not (peak_percent in out and offpeak_percent in out):
         raise check50.Mismatch(
             expected=f"On time {peak_percent} of the time during peak hours.\nOn time {offpeak_percent} of the time during off-peak hours.",
