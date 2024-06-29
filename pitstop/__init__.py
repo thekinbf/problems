@@ -89,7 +89,7 @@ def check_statistics(
     out = check50.run(f"Rscript pitstop.R {filename}").stdout()
 
     if not re.search(rf"\b{re.escape(pitstops)}\b", out):
-        raise check50.Failure(f"Could not find {pitstops} pitstops in output.")
+        raise check50.Failure(f"Could not find {pitstops} pit stops in output.")
 
     if not re.search(rf"\b{re.escape(fastest)}\b", out):
         raise check50.Failure(f"Could not find fastest time of {fastest}s in output.")
