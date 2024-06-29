@@ -22,7 +22,7 @@ def format():
     with open("analysis.csv", "r") as f:
         dialect = csv.Sniffer().sniff(f.read(1024))
         if dialect.delimiter != ',':
-            raise check50.Failure("analysis.csv does not use a comma as a delimiter")
+            raise check50.Failure("analysis.csv does not use a comma as a separator")
 
 
 @check50.check(format)
