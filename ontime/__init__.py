@@ -58,7 +58,7 @@ def check_route(route: str, peak_percent: str, offpeak_percent: str) -> None:
                 f'ontime.R could not open "{match.group("filename")}"',
                 help='Be sure to provide a relative path, such as "rail.csv" or "bus.csv"',
             )
-        raise check50.Failure(f"ontime.R encountered an error: {out}")
+        raise check50.Failure(out)
 
     if not (peak_percent in out and offpeak_percent in out):
         raise check50.Mismatch(

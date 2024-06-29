@@ -51,7 +51,7 @@ def check_prediction(year: str, output: str) -> None:
                 f'carpet.R could not open "{match.group("filename")}"',
                 help='Be sure to provide a relative path, such as "visitors.csv"',
             )
-        raise check50.Failure(f"carpet.R encountered an error: {out}")
+        raise check50.Failure(out)
 
     if output not in out:
         raise check50.Failure(f'Could not find "{output}" in carpet.R\'s output')

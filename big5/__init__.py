@@ -22,7 +22,7 @@ def error():
                 f'big5.R could not open "{filename}"',
                 help='Be sure to provide a relative path, such as "tests.tsv"',
             )
-        raise check50.Failure("big5.R encountered an error")
+        raise check50.Failure(out)
 
 
 @check50.check(error)
