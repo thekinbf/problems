@@ -16,12 +16,16 @@ def error():
 
 
 @check50.check(error)
-def analysis():
-    """big5.R produces analysis.csv"""
+def format():
+    """big5.R produces a properly formatted analysis.csv"""
     check50.exists("analysis.csv")
+    with open("analysis.csv", "r") as f:
+        dialect = csv.Sniffer().sniff(f.read(1024))
+        if dialect.delimiter != ',':
+            raise check50.Failure("analysis.csv does not use a comma as a delimiter")
 
 
-@check50.check(analysis)
+@check50.check(format)
 def rows():
     """analysis.csv contains all rows from tests.tsv"""
     row_count = 0
@@ -55,7 +59,7 @@ def columns():
             raise check50.Failure(f'Could not find "{trait}" in column names')
 
 
-@check50.check(rows)
+@check50.check(columns)
 def gender_column_test():
     """big5.R converts gender column to text"""
     expected_counts = {"unanswered": 24, "male": 7608, "female": 11985, "other": 102}
@@ -85,7 +89,7 @@ def gender_column_test():
             )
 
 
-@check50.check(rows)
+@check50.check(columns)
 def results():
     """big5.R computes correct personality test results"""
     expected_results = {
