@@ -30,13 +30,13 @@ if (!exists("air")) {
   quit(status = 1)
 }
 
-# Check if zelda is a tibble by inspecting its class
+# Check if air is a tibble by inspecting its class
 if (!("tbl_df" %in% class(air))) {
   cat("`air` is not a tibble")
   quit(status = 1)
 }
 
-# Check if check_zelda exists in check_2.RData
+# Check if check_air exists in check_5.RData
 if (!exists("check_air")) {
   cat("`check_air` tibble does not exist in check_5.RData. Not your fault! Contact <sysadmins@cs50.harvard.edu>")
   quit(status = 1)
