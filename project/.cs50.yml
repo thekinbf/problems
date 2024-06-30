@@ -1,0 +1,11 @@
+submit50:
+  files: &submit50_files
+    - !require DESCRIPTION
+    - !require NAMESPACE
+    - !require R/
+    - !require man/
+    - !require tests/
+  style: false
+
+check50:
+  files: *submit50_files
