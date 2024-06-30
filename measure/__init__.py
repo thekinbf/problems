@@ -10,7 +10,7 @@ def exists():
 
 @check50.check(exists)
 def num_tests():
-    """test-str_length.R has at least 4 `test_that` and 4 `expect` functions"""
+    """test-str_length.R has at least 4 test_that and 4 expect functions"""
     with open("test-str_length.R", "r") as f:
         content = f.read()
 
