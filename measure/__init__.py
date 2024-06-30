@@ -18,7 +18,7 @@ def num_tests():
     expect_calls = len(re.findall(r"\bexpect\w+\b", content))
 
     if test_that_calls < 4:
-        raise check50.Failure("Less than 4 calls to `test_that` found in test-str_length.R")
+        raise check50.Failure("Less than 4 calls to test_that found in test-str_length.R")
 
     if expect_calls < 4:
-        raise check50.Failure("Less than 4 calls to functions starting with `expect` found in test-str_length.R")
+        raise check50.Failure("Less than 4 calls to functions starting with expect found in test-str_length.R")

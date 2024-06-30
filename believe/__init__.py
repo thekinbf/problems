@@ -23,7 +23,7 @@ def test_believe_error():
 
 @check50.check(test_believe_error)
 def test_believe_contents():
-    """test-believe.R has at least 4 `test_that` and 4 `expect` functions"""
+    """test-believe.R has at least 4 test_that and 4 expect functions"""
     with open("test-believe.R", "r") as f:
         content = f.read()
 
@@ -31,7 +31,7 @@ def test_believe_contents():
     expect_calls = len(re.findall(r"\bexpect\w+\b", content))
 
     if test_that_calls < 4:
-        raise check50.Failure("Less than 4 calls to `test_that` found in test-str_length.R")
+        raise check50.Failure("Less than 4 calls to test_that found in test-str_length.R")
 
     if expect_calls < 4:
-        raise check50.Failure("Less than 4 calls to functions starting with `expect` found in test-str_length.R")
+        raise check50.Failure("Less than 4 calls to functions starting with expect found in test-str_length.R")
