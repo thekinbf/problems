@@ -86,7 +86,11 @@ def suzuka():
 def check_statistics(
     filename: str, pitstops: str, fastest: str, slowest: str, total: str
 ):
+    status = check50.run(f"Rscript pitstop.R {filename}").exit()
     out = check50.run(f"Rscript pitstop.R {filename}").stdout()
+    
+    if status != 0:
+        raise check50.Failure(out)
 
     if not re.search(rf"\b{re.escape(pitstops)}\b", out):
         raise check50.Failure(f"Could not find {pitstops} pit stops in output.")
@@ -110,7 +114,7 @@ def replace_readline(contents: list[str]) -> list[str]:
         if "readline" in line:
             readline_count += 1
             line = re.sub(
-                r"readline\([^\)]*\)",
+                r"readline\([^\v]*\)",
                 f"commandArgs(trailingOnly = TRUE)[{readline_count}]",
                 line,
             )
