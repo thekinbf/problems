@@ -65,13 +65,24 @@ def replace_readline(contents: list[str]) -> list[str]:
     readline_count = 0
 
     for line in contents:
-        if "readline" in line:
+        if match := re.search("readline", line):
             readline_count += 1
-            line = re.sub(
-                r"readline\([^\v]*\)",
-                f"commandArgs(trailingOnly = TRUE)[{readline_count}]",
-                line,
-            )
+
+            start = match.start()
+            open_paren = 0
+            close_paren = 0
+            for i in range(start, len(line)):
+                if line[i] == "(":
+                    open_paren += 1
+                elif line[i] == ")":
+                    close_paren += 1
+                
+                if open_paren > 0 and open_paren == close_paren:
+                    end = i
+                    break
+            
+            line = line[:start] + f"commandArgs(trailingOnly = TRUE)[{readline_count}]" + line[end + 1:]
+
         modified_contents.append(line)
 
     return modified_contents
