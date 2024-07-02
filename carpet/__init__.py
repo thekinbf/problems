@@ -67,7 +67,7 @@ def replace_readline(contents: list[str]) -> list[str]:
             readline_count += 1
             line = re.sub(
                 r"readline\([^\v]*\)",
-                f"commandArgs(trailingOnly = TRUE)[{readline_count}]",
+                f"commandArgs(trailingOnly = TRUE)[{readline_count}])",
                 line,
             )
         modified_contents.append(line)
