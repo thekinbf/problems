@@ -62,7 +62,7 @@ if (length(missing_columns) > 0) {
 }
 
 # Objects are equal
-if (!all.equal(zelda, check_zelda)) {
+if (!isTRUE(all.equal(zelda, check_zelda))) {
   differences <- which(!apply(zelda == check_zelda, 1, all))
   cat("tibble in 2.RData contains rows that are out of order or different from what's expected")
   quit(status = 1)
