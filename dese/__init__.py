@@ -3162,7 +3162,7 @@ def check_query_existence(filename, keywords=[]):
         raise check50.Failure(f"Could not find file {filename}")
 
 
-def check_single_col(actual, expected, ordered=False):
+def check_single_col(actual, expected, ordered=False, precision=None):
     """
     Checks that the single column in 'actual' matches 'expected'.
 
@@ -3172,6 +3172,7 @@ def check_single_col(actual, expected, ordered=False):
 
     options:
         ordered (bool)            whether to check whether actual's order matches expected's
+        precision (int)           number of decimal places to consider for comparison
 
     returns:
         None
@@ -3189,16 +3190,19 @@ def check_single_col(actual, expected, ordered=False):
             expected = {frozenset([elt]) for elt in expected}
     except Exception as e:
         raise check50.Failure(f"Error when reading expected result: {str(e)}")
-    return _check(actual, expected, ordered)
+    return _check(actual, expected, ordered, precision)
 
 
-def check_single_cell(actual, expected):
+def check_single_cell(actual, expected, precision=None):
     """
     Checks that the single cell in 'actual' matches 'expected'.
 
     positional arguments:
         actual (list[dict])       result returned by run_query
         expected (single element) expected result to match against
+
+    options:
+        precision (int)           number of decimal places to consider for comparison
 
     returns:
         None
@@ -3213,10 +3217,10 @@ def check_single_cell(actual, expected):
         expected = [frozenset([expected])]
     except Exception as e:
         raise check50.Failure(f"Error when reading expected result: {str(e)}")
-    return _check(actual, expected, ordered=True)
+    return _check(actual, expected, ordered=True, precision=precision)
 
 
-def check_multi_col(actual, expected, ordered=False):
+def check_multi_col(actual, expected, ordered=False, precision=None):
     """
     Checks that the columns in 'actual' matches 'expected'.
 
@@ -3226,6 +3230,7 @@ def check_multi_col(actual, expected, ordered=False):
 
     options:
         ordered (bool)            whether to check whether actual's order matches expected's
+        precision (int)           number of decimal places to consider for comparison
 
     returns:
         None
@@ -3243,10 +3248,10 @@ def check_multi_col(actual, expected, ordered=False):
             expected = {frozenset(unfrozen_set) for unfrozen_set in expected}
     except Exception as e:
         raise check50.Failure(f"Error when reading expected result: {str(e)}")
-    return _check(actual, expected, ordered)
+    return _check(actual, expected, ordered, precision)
 
 
-def _check(actual, expected, ordered=False):
+def _check(actual, expected, ordered=False, precision=None):
     """
     Checks that the SQL output in 'actual' matches 'expected'.
 
@@ -3258,6 +3263,7 @@ def _check(actual, expected, ordered=False):
 
     options:
         ordered (bool)            whether to check whether actual's order matches expected's
+        precision (int)           number of decimal places to consider for comparison
 
     returns:
         None
@@ -3281,6 +3287,14 @@ def _check(actual, expected, ordered=False):
         result = result if ordered else set(result)
     except Exception as e:
         raise check50.Failure(f"Error with format of query: {str(e)}")
+
+    # Apply precision if specified
+    if precision is not None:
+        def round_values(fset):
+            return frozenset([str(round(float(val), precision)) if val.replace('.', '', 1).isdigit() else val for val in fset])
+
+        result = {round_values(fset) for fset in result}
+        expected = {round_values(fset) for fset in expected}
 
     # check result of query against expected values
     if result != expected:
