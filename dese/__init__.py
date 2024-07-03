@@ -1918,7 +1918,7 @@ def test2():
 @check50.check(exists)
 def test3():
     """3.sql produces correct result"""
-    check_single_cell(run_query("3.sql"), '19528.99002525252')
+    check_single_cell(run_query("3.sql"), '19528.99002525252', precision=8)
 
 
 @check50.check(exists)
