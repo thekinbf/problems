@@ -68,7 +68,7 @@ if (any(table(air$county) > 1)) {
 }
 
 # Tibble contains highest emissions for each county
-if (!isTRUE(all.equal(sort(air$emissions) == sort(check_air$emissions)))) {
+if (!isTRUE(all.equal(sort(air$emissions), sort(check_air$emissions)))) {
   cat("air tibble does not contain highest emissions for each county")
   quit(status = 1)
 }
