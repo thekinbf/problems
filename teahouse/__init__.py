@@ -1,4 +1,5 @@
 import check50
+import glob
 import re
 
 
@@ -44,6 +45,14 @@ def chamomile():
 def rooibos():
     """teahouse.R correctly recommends rooibos tea"""
     check_recommendation("Bold", "No", "rooibos")
+
+
+@check50.check(rooibos)
+def part2():
+    """personal .R program exists"""
+    r_filenames = glob.glob("*.R")
+    if not len(r_filenames) >= 2:
+        raise check50.Failure("Could not find additional .R files")
 
 
 def check_recommendation(flavor: str, caffeine: str, tea: str) -> None:
