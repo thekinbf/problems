@@ -28,19 +28,19 @@ def green_tea():
     check_recommendation("Light", "Yes", "green tea")
 
 
-@check50.check(readline)
+@check50.check(green_tea)
 def black_tea():
     """teahouse.R correctly recommends black tea"""
     check_recommendation("Bold", "Yes", "black tea")
 
 
-@check50.check(readline)
+@check50.check(black_tea)
 def chamomile():
     """teahouse.R correctly recommends chamomile tea"""
     check_recommendation("Light", "No", "chamomile")
 
 
-@check50.check(readline)
+@check50.check(chamomile)
 def rooibos():
     """teahouse.R correctly recommends rooibos tea"""
     check_recommendation("Bold", "No", "rooibos")
