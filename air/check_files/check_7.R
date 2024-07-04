@@ -62,7 +62,7 @@ if (length(missing_columns) > 0) {
 }
 
 # Objects are equal
-if (!all.equal(air, check_air)) {
+if (!isTRUE(all.equal(air, check_air))) {
   cat("tibble in 7.RData contains rows that are out of order or different from what's expected")
   quit(status = 1)
 }

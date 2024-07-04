@@ -39,13 +39,13 @@ def bahrain():
     )
 
 
-@check50.check(uses_readline)
+@check50.check(bahrain)
 def imola():
     """Correctly prints Imola data"""
     check_statistics("imola.csv", pitstops="27", fastest="2.09", slowest="10.94", total="83.18")
 
 
-@check50.check(uses_readline)
+@check50.check(imola)
 def jeddah():
     """Correctly prints Jeddah data"""
     check_statistics(
@@ -53,7 +53,7 @@ def jeddah():
     )
 
 
-@check50.check(uses_readline)
+@check50.check(jeddah)
 def melbourne():
     """Correctly prints Melbourne data"""
     check_statistics(
@@ -61,13 +61,13 @@ def melbourne():
     )
 
 
-@check50.check(uses_readline)
+@check50.check(melbourne)
 def miami():
     """Correctly prints Miami data"""
     check_statistics("miami.csv", pitstops="28", fastest="1.94", slowest="11.05", total="98.53")
 
 
-@check50.check(uses_readline)
+@check50.check(miami)
 def shanghai():
     """Correctly prints Shanghai data"""
     check_statistics(
@@ -75,7 +75,7 @@ def shanghai():
     )
 
 
-@check50.check(uses_readline)
+@check50.check(shanghai)
 def suzuka():
     """Correctly prints Suzuka data"""
     check_statistics(
