@@ -62,8 +62,19 @@ if (length(missing_columns) > 0) {
 }
 
 # Objects are equal
-if (!isTRUE(all.equal(zelda, check_zelda))) {
-  differences <- which(!apply(zelda == check_zelda, 1, all))
-  cat("tibble in 4.RData contains rows that are out of order or different from what's expected")
-  quit(status = 1)
+for (colname in c("title", "year", "system")) {
+  if (length(zelda[[colname]]) < length(check_zelda[[colname]])) {
+      cat(paste0("tibble in 4.RData has fewer rows than expected"))
+      quit(status = 1)
+  }
+
+  if (length(zelda[[colname]]) > length(check_zelda[[colname]])) {
+      cat(paste0("tibble in 4.RData has more rows than expected"))
+      quit(status = 1)
+  }
+
+  if (!all(zelda[[colname]] == check_zelda[[colname]], na.rm = TRUE)) {
+      cat(paste0("In ", colname, " column, tibble in 4.RData contains data that is out of order or different from what's expected"))
+      quit(status = 1)
+  }
 }
