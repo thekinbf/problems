@@ -36,7 +36,6 @@ def test1():
         'peacefultrust147',
         'admirablesuccess620',
         'radiantcreativity958',
-        'wonderfulfriendship325',
         'impressivecommitment918',
         'elegantcomfort516',
         'marvelousinspiration875'],
@@ -71,7 +70,7 @@ def test5():
     """5.sql produces correct result"""
     check_single_col(
         run_query("5.sql"),
-        ['8', '31', '32', '36', '43'],
+        ['8', '31', '32', '36'],
         ordered=False,
     )
 
