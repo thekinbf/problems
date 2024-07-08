@@ -29,6 +29,11 @@ def uses_readline():
 
     with open("pitstop.R", "w") as f:
         f.writelines(new_contents)
+    
+    out = check50.run(f"Rscript pitstop.R bahrain.csv").stdout()
+    status = check50.run(f"Rscript pitstop.R bahrain.csv").exit()
+    if status != 0 and "unexpected" in out:
+        raise check50.Failure("Could not find your use of readline. Ensure it's on a single line without stray spaces.")
 
 
 @check50.check(uses_readline)
@@ -42,7 +47,9 @@ def bahrain():
 @check50.check(bahrain)
 def imola():
     """Correctly prints Imola data"""
-    check_statistics("imola.csv", pitstops="27", fastest="2.09", slowest="10.94", total="83.18")
+    check_statistics(
+        "imola.csv", pitstops="27", fastest="2.09", slowest="10.94", total="83.18"
+    )
 
 
 @check50.check(imola)
@@ -64,7 +71,9 @@ def melbourne():
 @check50.check(melbourne)
 def miami():
     """Correctly prints Miami data"""
-    check_statistics("miami.csv", pitstops="28", fastest="1.94", slowest="11.05", total="98.53")
+    check_statistics(
+        "miami.csv", pitstops="28", fastest="1.94", slowest="11.05", total="98.53"
+    )
 
 
 @check50.check(miami)
@@ -88,7 +97,7 @@ def check_statistics(
 ):
     status = check50.run(f"Rscript pitstop.R {filename}").exit()
     out = check50.run(f"Rscript pitstop.R {filename}").stdout()
-    
+
     if status != 0:
         raise check50.Failure(out)
 
@@ -111,23 +120,19 @@ def replace_readline(contents: list[str]) -> list[str]:
     readline_count = 0
 
     for line in contents:
-        if match := re.search("readline", line):
+        if "readline" in line:
             readline_count += 1
 
-            start = match.start()
-            open_paren = 0
-            close_paren = 0
-            for i in range(start, len(line)):
-                if line[i] == "(":
-                    open_paren += 1
-                elif line[i] == ")":
-                    close_paren += 1
-                
-                if open_paren > 0 and open_paren == close_paren:
-                    end = i
-                    break
-            
-            line = line[:start] + f"commandArgs(trailingOnly = TRUE)[{readline_count}]" + line[end + 1:]
+            if not re.search(r"readline\([\S\s]*(?:(?<!\))\))", line):
+                raise check50.Failure(
+                    "Could not find your use of readline. Ensure it's on a single line without stray spaces."
+                )
+
+            line = re.sub(
+                r"readline\([\S\s]*(?:(?<!\))\))",
+                f"commandArgs(trailingOnly = TRUE)[{readline_count}]",
+                line,
+            )
 
         modified_contents.append(line)
 

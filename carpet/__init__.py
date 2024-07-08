@@ -22,6 +22,11 @@ def readline():
     with open("carpet.R", "w") as f:
         f.writelines(new_contents)
 
+    out = check50.run(f"Rscript carpet.R").stdout()
+    status = check50.run(f"Rscript carpet.R").exit()
+    if status != 0 and "unexpected" in out:
+        raise check50.Failure("Could not find your use of readline. Ensure it's on a single line without stray spaces.")
+
 
 @check50.check(readline)
 def twenty_four():
@@ -63,23 +68,19 @@ def replace_readline(contents: list[str]) -> list[str]:
     readline_count = 0
 
     for line in contents:
-        if match := re.search("readline", line):
+        if "readline" in line:
             readline_count += 1
 
-            start = match.start()
-            open_paren = 0
-            close_paren = 0
-            for i in range(start, len(line)):
-                if line[i] == "(":
-                    open_paren += 1
-                elif line[i] == ")":
-                    close_paren += 1
-                
-                if open_paren > 0 and open_paren == close_paren:
-                    end = i
-                    break
-            
-            line = line[:start] + f"commandArgs(trailingOnly = TRUE)[{readline_count}]" + line[end + 1:]
+            if not re.search(r"readline\([\S\s]*(?:(?<!\))\))", line):
+                raise check50.Failure(
+                    "Could not find your use of readline. Ensure it's on a single line without stray spaces."
+                )
+
+            line = re.sub(
+                r"readline\([\S\s]*(?:(?<!\))\))",
+                f"commandArgs(trailingOnly = TRUE)[{readline_count}]",
+                line,
+            )
 
         modified_contents.append(line)
 
