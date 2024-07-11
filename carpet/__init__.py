@@ -34,13 +34,13 @@ def twenty_four():
     check_prediction("2024", "10.24 million visitors")
 
 
-@check50.check(readline)
+@check50.check(twenty_four)
 def thirty_four():
     """carpet.R correctly predicts 2034 visitors"""
     check_prediction("2034", "12.14 million visitors")
 
 
-@check50.check(readline)
+@check50.check(thirty_four)
 def fourteen():
     """carpet.R correctly predicts 2014 visitors"""
     check_prediction("2014", "8.34 million visitors")
