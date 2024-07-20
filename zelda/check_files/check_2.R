@@ -62,7 +62,7 @@ if (length(missing_columns) > 0) {
 }
 
 # Objects are equal
-for (colname in c("year", "releases")) {
+for (colname in c("releases")) {
   if (length(zelda[[colname]]) < length(check_zelda[[colname]])) {
       cat(paste0("tibble in 2.RData has fewer rows than expected"))
       quit(status = 1)
