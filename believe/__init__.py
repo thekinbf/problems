@@ -12,13 +12,21 @@ def exists():
 @check50.check(exists)
 def believe_error():
     """believe.R runs without error"""
-    check50.run("Rscript believe.R").exit(0)
+    status = check50.run("Rscript believe.R").exit()
+    out = check50.run("Rscript believe.R").stdout()
+    if status != 0:
+        raise check50.Failure(out)
 
 
 @check50.check(exists)
 def test_believe_error():
     """test-believe.R runs without error"""
-    check50.run("Rscript test-believe.R").exit(0)
+    status = check50.run("Rscript test-believe.R").exit()
+    out = check50.run("Rscript test-believe.R").stdout()
+    if status != 0:
+        if "could not find function" in out:
+            raise check50.Failure("Oops! Did you forget to include `source(\"believe.R\")` in `test-believe.R`?")
+        raise check50.Failure(out)
 
 
 @check50.check(test_believe_error)
