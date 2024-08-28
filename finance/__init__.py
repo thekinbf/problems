@@ -225,7 +225,7 @@ class Finance(check50.flask.app):
             try:
                 name = tag.attrs["name"]
                 if required[name]:
-                    raise Error('found more than one field called "{}"'.format(name))
+                    raise check50.Failure('found more than one field called "{}"'.format(name))
             except KeyError:
                 pass
             else:
